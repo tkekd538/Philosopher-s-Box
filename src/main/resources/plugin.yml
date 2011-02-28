@@ -1,0 +1,5 @@
+name: Philosopher's Box
+main: com.nohupgaming.minecraft.PhilosophersBox
+version: 1.0
+description: Convert one resource to another in the magic box
+author: Nohup
