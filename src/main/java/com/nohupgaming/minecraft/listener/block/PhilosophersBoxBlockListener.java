@@ -31,10 +31,6 @@ public class PhilosophersBoxBlockListener extends BlockListener
                 Thread t = new Thread(new ContentConverter(_plugin, c));
                 t.start();                
             }
-            else
-            {
-                System.out.println("Box not found.");
-            }
         }
     }
 }

@@ -49,8 +49,7 @@ public class PhilosophersBoxPlayerListener extends PlayerListener
                 }
 
                 Material convertTo = null;
-                List<String> keys = _plugin.getConfiguration().getKeys(
-                    Constants.VALUE_PREFIX);
+                List<String> keys = _plugin.getConversionKeys();
                 
                 if ((event.getNewSlot() == event.getPreviousSlot() + 1) || 
                     (event.getNewSlot() == 0 && event.getPreviousSlot() > 1))
@@ -75,7 +74,6 @@ public class PhilosophersBoxPlayerListener extends PlayerListener
         {
             idx = types.indexOf(current.toString().toLowerCase());            
         }
-        System.out.println("current idx is " + idx);
 
         if (types.size() > 0)
         {
@@ -109,7 +107,6 @@ public class PhilosophersBoxPlayerListener extends PlayerListener
                 }
             }
             
-            System.out.println("new idx is " + idx);
             return Material.getMaterial(types.get(idx).toUpperCase());
         }
         

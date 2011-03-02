@@ -1,6 +1,8 @@
 package com.nohupgaming.minecraft;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.event.Event.Priority;
@@ -18,12 +20,14 @@ public class PhilosophersBox extends JavaPlugin
     PhilosophersBoxBlockListener _bl;
     Material _m;
     HashMap<Material, Integer> _vals;
+    List<String> _ck;
     
     public PhilosophersBox()
     {
         _pl = new PhilosophersBoxPlayerListener(this);
         _bl = new PhilosophersBoxBlockListener(this);
         _vals = new HashMap<Material, Integer>();
+        _ck = null;
     }
     
     public void onDisable() 
@@ -39,10 +43,10 @@ public class PhilosophersBox extends JavaPlugin
         }
         
         Configuration c = getConfiguration();
-        for (String s : c.getKeys(Constants.VALUE_PREFIX))
+        for (String s : c.getKeys(Constants.MATERIAL))
         {
             Material m = Material.getMaterial(s.toUpperCase());
-            int val = c.getInt(Constants.VALUE_PREFIX + "." + s + "." + 
+            int val = c.getInt(Constants.MATERIAL_PREFIX + s + 
                 Constants.VALUE_SUFFIX, 0);
             _vals.put(m, new Integer(val));
         }
@@ -63,6 +67,10 @@ public class PhilosophersBox extends JavaPlugin
             c.setProperty(Constants.GOLDORE_VALUE, 64);
             c.setProperty(Constants.DIAMONDORE_VALUE, 128);
             
+            c.setProperty(Constants.STONE_TO, false);
+            c.setProperty(Constants.GOLDORE_TO, true);
+            c.setProperty(Constants.DIAMONDORE_TO, false);
+
             if (!c.save())
             {
                 getServer().getLogger().warning("Unable to persist configuration files, changes will not be saved.");
@@ -89,6 +97,26 @@ public class PhilosophersBox extends JavaPlugin
     public Material getCurrentMaterial()
     {
         return _m;
+    }
+    
+    public List<String> getConversionKeys()
+    {
+        if (_ck == null)
+        {
+            _ck = new ArrayList<String>();
+            List<String> keys = getConfiguration().getKeys(
+                Constants.MATERIAL);
+            
+            for (String s : keys)
+            {
+                if (getConfiguration().getBoolean(Constants.MATERIAL_PREFIX + s + Constants.TO_SUFFIX, false))
+                {
+                    _ck.add(s);
+                }
+            }            
+        }
+        
+        return _ck;
     }
     
 }

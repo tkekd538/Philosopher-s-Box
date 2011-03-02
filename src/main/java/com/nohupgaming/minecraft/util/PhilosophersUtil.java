@@ -55,8 +55,6 @@ public class PhilosophersUtil
             int create = bank / toValue;
             int remain = bank % toValue;
 
-            System.out.println("Create " + create + " " + m + " with a remainder of " + remain);
-            
             if (create > 0)
             {
                 created.add(new ItemStack(m, create));

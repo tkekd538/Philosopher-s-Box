@@ -35,18 +35,16 @@ public class ContentConverter implements Runnable {
             
             for (ItemStack exists : existing)
             {
-                System.out.println("Item: " + exists.getTypeId());
                 //don't destroy anything that doesn't have a defined value
                 if (!exists.getType().equals(Material.AIR) &&
                     _plugin.getMaterialValue(exists.getType()) == 0)
                 {
-                    System.out.println("Valueless: " + exists.getType());
                     converted.add(exists);
                 }
             }
             
             int bankValue = PhilosophersUtil.calculateValue(_plugin, existing);
-            System.out.println("Overall value is " + bankValue);
+
             if (bankValue >= _plugin.getMaterialValue(_plugin.getCurrentMaterial()))
             {                    
                 Material convertTo = _plugin.getCurrentMaterial();
@@ -59,7 +57,6 @@ public class ContentConverter implements Runnable {
                     {
                         if (!exists.getType().equals(Material.AIR))
                         {
-                            System.out.println("Existing, checking " + exists.getType());
                             if (bankValue >= _plugin.getMaterialValue(exists.getType()))
                             {
                                 nextType = exists.getType();
@@ -67,8 +64,6 @@ public class ContentConverter implements Runnable {
                         }
                     }
 
-                    System.out.println("Next type is " + nextType + " with a bank of " + bankValue);
-                    
                     if (nextType == null)
                     {
                         break;
