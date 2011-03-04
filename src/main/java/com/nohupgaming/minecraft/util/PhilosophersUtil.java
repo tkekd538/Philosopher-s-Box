@@ -49,7 +49,7 @@ public class PhilosophersUtil
     
     public static int createItems(PhilosophersBox plugin, Material m, int bank, List<ItemStack> created)
     {
-        if (!m.equals(Material.AIR))
+        if (m != null && !m.equals(Material.AIR))
         {
             int toValue = plugin.getMaterialValue(m);
             int create = bank / toValue;
