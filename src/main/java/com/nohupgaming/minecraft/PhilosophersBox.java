@@ -11,16 +11,20 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
+import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
 import com.nohupgaming.minecraft.listener.block.PhilosophersBoxBlockListener;
 import com.nohupgaming.minecraft.listener.player.PhilosophersBoxPlayerListener;
+import com.nohupgaming.minecraft.util.PhilosopherConstants;
 
 public class PhilosophersBox extends JavaPlugin 
 {
-    PhilosophersBoxPlayerListener _pl;
-    PhilosophersBoxBlockListener _bl;
-    Material _m;
-    HashMap<Material, Integer> _vals;
-    List<String> _ck;
+    private PhilosophersBoxPlayerListener _pl;
+    private PhilosophersBoxBlockListener _bl;
+    private Material _m;
+    private HashMap<Material, Integer> _vals;
+    private List<String> _ck;
+    private PermissionHandler _permissions;
     
     public PhilosophersBox()
     {
@@ -43,11 +47,11 @@ public class PhilosophersBox extends JavaPlugin
         }
         
         Configuration c = getConfiguration();
-        for (String s : c.getKeys(Constants.MATERIAL))
+        for (String s : c.getKeys(PhilosopherConstants.MATERIAL))
         {
             Material m = Material.getMaterial(s.toUpperCase());
-            int val = c.getInt(Constants.MATERIAL_PREFIX + s + 
-                Constants.VALUE_SUFFIX, 0);
+            int val = c.getInt(PhilosopherConstants.MATERIAL_PREFIX + s + 
+                PhilosopherConstants.VALUE_SUFFIX, 0);
             _vals.put(m, new Integer(val));
         }
         
@@ -55,6 +59,12 @@ public class PhilosophersBox extends JavaPlugin
         pm.registerEvent(Type.PLAYER_ITEM_HELD, _pl, Priority.Normal, this);
         pm.registerEvent(Type.BLOCK_INTERACT, _bl, Priority.Normal, this);
 
+        if (pm.getPlugin(PhilosopherConstants.PERMISSIONS) != null)
+        {
+            Permissions perm = (Permissions) pm.getPlugin(Permissions.name);
+            _permissions = perm.getHandler(); 
+        }
+        
         System.out.println("PhilosophersBox has been enabled.");
     }
     
@@ -63,13 +73,25 @@ public class PhilosophersBox extends JavaPlugin
         Configuration c = getConfiguration();
         if (c != null)
         {
-            c.setProperty(Constants.STONE_VALUE, 1);
-            c.setProperty(Constants.GOLDORE_VALUE, 64);
-            c.setProperty(Constants.DIAMONDORE_VALUE, 128);
+            c.setProperty(PhilosopherConstants.MATERIAL_PREFIX +  
+                Material.STONE.toString().toLowerCase() + 
+                PhilosopherConstants.VALUE_SUFFIX, 1);
+            c.setProperty(PhilosopherConstants.MATERIAL_PREFIX +  
+                Material.GOLD_ORE.toString().toLowerCase() + 
+                PhilosopherConstants.VALUE_SUFFIX, 64);
+            c.setProperty(PhilosopherConstants.MATERIAL_PREFIX +  
+                Material.DIAMOND_ORE.toString().toLowerCase() + 
+                PhilosopherConstants.VALUE_SUFFIX, 128);
             
-            c.setProperty(Constants.STONE_TO, false);
-            c.setProperty(Constants.GOLDORE_TO, true);
-            c.setProperty(Constants.DIAMONDORE_TO, false);
+            c.setProperty(PhilosopherConstants.MATERIAL_PREFIX +  
+                Material.STONE.toString().toLowerCase() + 
+                PhilosopherConstants.TO_SUFFIX, false);
+            c.setProperty(PhilosopherConstants.MATERIAL_PREFIX +  
+                Material.GOLD_ORE.toString().toLowerCase() + 
+                PhilosopherConstants.TO_SUFFIX, true);
+            c.setProperty(PhilosopherConstants.MATERIAL_PREFIX +  
+                Material.DIAMOND_ORE.toString().toLowerCase() + 
+                PhilosopherConstants.TO_SUFFIX, false);
 
             if (!c.save())
             {
@@ -105,11 +127,11 @@ public class PhilosophersBox extends JavaPlugin
         {
             _ck = new ArrayList<String>();
             List<String> keys = getConfiguration().getKeys(
-                Constants.MATERIAL);
+                PhilosopherConstants.MATERIAL);
             
             for (String s : keys)
             {
-                if (getConfiguration().getBoolean(Constants.MATERIAL_PREFIX + s + Constants.TO_SUFFIX, false))
+                if (getConfiguration().getBoolean(PhilosopherConstants.MATERIAL_PREFIX + s + PhilosopherConstants.TO_SUFFIX, false))
                 {
                     _ck.add(s);
                 }
@@ -117,6 +139,11 @@ public class PhilosophersBox extends JavaPlugin
         }
         
         return _ck;
+    }
+    
+    public PermissionHandler getPermissionHandler()
+    {
+        return _permissions;
     }
     
 }

@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.nohupgaming.minecraft.PhilosophersBox;
@@ -114,5 +115,15 @@ public class PhilosophersUtil
             ? s.substring(0,1).toUpperCase()
                 + s.substring(1, s.length()).toLowerCase()
             : null; 
-    }        
+    }
+    
+    public static boolean hasPermission(PhilosophersBox p, Player pl, String path)
+    {
+        if (p.getPermissionHandler() != null && pl != null)
+        {
+            return p.getPermissionHandler().has(pl, path);
+        }
+        return true;
+    }
+    
 }

@@ -9,8 +9,8 @@ import org.bukkit.block.Sign;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerListener;
 
-import com.nohupgaming.minecraft.Constants;
 import com.nohupgaming.minecraft.PhilosophersBox;
+import com.nohupgaming.minecraft.util.PhilosopherConstants;
 import com.nohupgaming.minecraft.util.PhilosophersUtil;
 
 public class PhilosophersBoxPlayerListener extends PlayerListener 

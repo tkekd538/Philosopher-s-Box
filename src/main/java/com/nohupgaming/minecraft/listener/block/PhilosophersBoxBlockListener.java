@@ -1,13 +1,16 @@
 package com.nohupgaming.minecraft.listener.block;
 
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockInteractEvent;
 import org.bukkit.event.block.BlockListener;
 
 import com.nohupgaming.minecraft.ContentConverter;
 import com.nohupgaming.minecraft.PhilosophersBox;
+import com.nohupgaming.minecraft.util.PhilosopherConstants;
 import com.nohupgaming.minecraft.util.PhilosophersUtil;
 
 public class PhilosophersBoxBlockListener extends BlockListener 
@@ -25,11 +28,40 @@ public class PhilosophersBoxBlockListener extends BlockListener
         if (event.getBlock().getType().equals(Material.STONE_BUTTON))
         {
             Chest c = PhilosophersUtil.findPhilosophersBox(event.getBlock());
+            Player pl = event.getEntity() instanceof Player ? (Player) event.getEntity() : null;
+            Material m = _plugin.getCurrentMaterial();
             
-            if (c != null)
+            if (m == null)
+            {
+                if (pl != null)
+                {
+                    pl.sendMessage(ChatColor.YELLOW + "Please select a conversion at the sign first.");
+                }
+                
+                return;
+            }
+            
+            String path = PhilosopherConstants.PHILOSOPHERS_PREFIX + 
+                PhilosopherConstants.MATERIAL_PREFIX + m.toString().toLowerCase();
+            
+            if (c != null && PhilosophersUtil.hasPermission(_plugin, pl, path))
             {
                 Thread t = new Thread(new ContentConverter(_plugin, c));
                 t.start();                
+            }
+            else
+            {
+                if (pl != null)
+                {
+                    if (c == null)
+                    {
+                        pl.sendMessage(ChatColor.RED + "Unable to locate Philosopher's Box, please check your configuration.");
+                    }
+                    else
+                    {
+                        pl.sendMessage(ChatColor.RED + "You do not have permission to execute this conversion.");
+                    }
+                }
             }
         }
     }
