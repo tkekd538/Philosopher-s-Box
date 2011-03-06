@@ -31,7 +31,7 @@ public class PhilosophersBoxBlockListener extends BlockListener
             Player pl = event.getEntity() instanceof Player ? (Player) event.getEntity() : null;
             Material m = _plugin.getCurrentMaterial();
             
-            if (m == null)
+            if (m == null && c != null)
             {
                 if (pl != null)
                 {
@@ -51,16 +51,9 @@ public class PhilosophersBoxBlockListener extends BlockListener
             }
             else
             {
-                if (pl != null)
+                if (pl != null && c != null)
                 {
-                    if (c == null)
-                    {
-                        pl.sendMessage(ChatColor.RED + "Unable to locate Philosopher's Box, please check your configuration.");
-                    }
-                    else
-                    {
-                        pl.sendMessage(ChatColor.RED + "You do not have permission to execute this conversion.");
-                    }
+                    pl.sendMessage(ChatColor.RED + "You do not have permission to execute this conversion.");
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.nohupgaming.minecraft.util;
 public class PhilosopherConstants 
 {
     public static final String MATERIAL = "material";
+    public static final String OPSONLY = "opsonly";
 
     public static final String MATERIAL_PREFIX = "material.";
     public static String PHILOSOPHERS_PREFIX = "philosophers.";

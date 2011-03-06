@@ -10,6 +10,7 @@ import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
+import org.bukkit.util.config.ConfigurationNode;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
@@ -25,13 +26,16 @@ public class PhilosophersBox extends JavaPlugin
     private HashMap<Material, Integer> _vals;
     private List<String> _ck;
     private PermissionHandler _permissions;
+    private boolean _oponly;
     
     public PhilosophersBox()
     {
         _pl = new PhilosophersBoxPlayerListener(this);
         _bl = new PhilosophersBoxBlockListener(this);
-        _vals = new HashMap<Material, Integer>();
+        _vals = new HashMap<Material, Integer>();        
         _ck = null;
+        _permissions = null;
+        _oponly = false;
     }
     
     public void onDisable() 
@@ -65,6 +69,9 @@ public class PhilosophersBox extends JavaPlugin
             _permissions = perm.getHandler(); 
         }
         
+        String n = c.getString(PhilosopherConstants.OPSONLY);
+        _oponly = c.getBoolean(PhilosopherConstants.OPSONLY, false);
+        
         System.out.println("PhilosophersBox has been enabled.");
     }
     
@@ -73,6 +80,7 @@ public class PhilosophersBox extends JavaPlugin
         Configuration c = getConfiguration();
         if (c != null)
         {
+            c.setProperty(PhilosopherConstants.OPSONLY, false);
             c.setProperty(PhilosopherConstants.MATERIAL_PREFIX +  
                 Material.STONE.toString().toLowerCase() + 
                 PhilosopherConstants.VALUE_SUFFIX, 1);
@@ -144,6 +152,11 @@ public class PhilosophersBox extends JavaPlugin
     public PermissionHandler getPermissionHandler()
     {
         return _permissions;
+    }
+    
+    public boolean isOpsOnly()
+    {
+        return _oponly;
     }
     
 }

@@ -5,7 +5,7 @@
   <name>Minecraft - Philosopher's Box</name>
   <groupId>com.nohupgaming.minecraft</groupId>
   <artifactId>PhilosophersBox</artifactId>
-  <version>1.2</version>
+  <version>1.3</version>
   <packaging>jar</packaging>  
 
   <repositories>

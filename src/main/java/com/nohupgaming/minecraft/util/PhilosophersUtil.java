@@ -123,6 +123,12 @@ public class PhilosophersUtil
         {
             return p.getPermissionHandler().has(pl, path);
         }
+        
+        if (p.isOpsOnly())
+        {
+            return pl.isOp();
+        }
+        
         return true;
     }
     
