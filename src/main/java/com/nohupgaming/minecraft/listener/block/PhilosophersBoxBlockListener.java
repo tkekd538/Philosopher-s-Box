@@ -46,14 +46,14 @@ public class PhilosophersBoxBlockListener extends BlockListener
                 String path = PhilosopherConstants.PHILOSOPHERS_PREFIX + 
                 PhilosopherConstants.MATERIAL_PREFIX + m.toString().toLowerCase();
             
-                if (c != null && PhilosophersUtil.hasPermission(_plugin, pl, path))
+                if (PhilosophersUtil.hasPermission(_plugin, pl, path))
                 {
                     Thread t = new Thread(new ContentConverter(_plugin, c));
                     t.start();                
                 }
                 else
                 {
-                    if (pl != null && c != null)
+                    if (pl != null)
                     {
                         pl.sendMessage(ChatColor.RED + "You do not have permission to execute this conversion.");
                     }
