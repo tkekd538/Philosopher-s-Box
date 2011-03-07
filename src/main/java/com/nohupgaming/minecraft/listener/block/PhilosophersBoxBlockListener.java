@@ -41,19 +41,22 @@ public class PhilosophersBoxBlockListener extends BlockListener
                 return;
             }
             
-            String path = PhilosopherConstants.PHILOSOPHERS_PREFIX + 
+            if (m != null && c != null)
+            {
+                String path = PhilosopherConstants.PHILOSOPHERS_PREFIX + 
                 PhilosopherConstants.MATERIAL_PREFIX + m.toString().toLowerCase();
             
-            if (c != null && PhilosophersUtil.hasPermission(_plugin, pl, path))
-            {
-                Thread t = new Thread(new ContentConverter(_plugin, c));
-                t.start();                
-            }
-            else
-            {
-                if (pl != null && c != null)
+                if (c != null && PhilosophersUtil.hasPermission(_plugin, pl, path))
                 {
-                    pl.sendMessage(ChatColor.RED + "You do not have permission to execute this conversion.");
+                    Thread t = new Thread(new ContentConverter(_plugin, c));
+                    t.start();                
+                }
+                else
+                {
+                    if (pl != null && c != null)
+                    {
+                        pl.sendMessage(ChatColor.RED + "You do not have permission to execute this conversion.");
+                    }
                 }
             }
         }
