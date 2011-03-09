@@ -72,7 +72,7 @@ public class PhilosophersBox extends JavaPlugin
         String n = c.getString(PhilosopherConstants.OPSONLY);
         _oponly = c.getBoolean(PhilosopherConstants.OPSONLY, false);
         
-        System.out.println("PhilosophersBox has been enabled.");
+        System.out.println("PhilosophersBox " + PhilosopherConstants.PHILOSOPHER_VERSION + " has been enabled.");
     }
     
     protected void buildConfiguration() 

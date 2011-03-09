@@ -2,6 +2,8 @@ package com.nohupgaming.minecraft.util;
 
 public class PhilosopherConstants 
 {
+    public static final String PHILOSOPHER_VERSION = "v1.5";
+    
     public static final String MATERIAL = "material";
     public static final String OPSONLY = "opsonly";
 
