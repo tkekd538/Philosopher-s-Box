@@ -115,7 +115,13 @@ public class PhilosophersBoxPlayerListener extends PlayerListener
     
     private void setScreenText(Sign s, String text)
     {
-        if (text.length() > 15)
+        if (text == null)
+        {
+            s.setLine(2, "");
+            s.setLine(3, "");
+            
+        }
+        else if (text.length() > 15)
         {
             s.setLine(2, text.substring(0, 14));
             s.setLine(3, text.substring(14));

@@ -70,18 +70,21 @@ public class PhilosophersUtil
     public static String getMaterialName(Material m)
     {
         String out = null;
-        StringTokenizer st = new StringTokenizer(m.toString(), "_");
-        
-        while (st.hasMoreTokens())
+        if (m != null)
         {
-            if (out != null)
+            StringTokenizer st = new StringTokenizer(m.toString(), "_");
+            
+            while (st.hasMoreTokens())
             {
-                out = out + " ";
-                out = out + initCap(st.nextToken());
-            }
-            else
-            {
-                out = initCap(st.nextToken());
+                if (out != null)
+                {
+                    out = out + " ";
+                    out = out + initCap(st.nextToken());
+                }
+                else
+                {
+                    out = initCap(st.nextToken());
+                }
             }
         }
         
