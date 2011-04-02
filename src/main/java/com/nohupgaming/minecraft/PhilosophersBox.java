@@ -10,18 +10,15 @@ import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
-import org.bukkit.util.config.ConfigurationNode;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
-import com.nohupgaming.minecraft.listener.block.PhilosophersBoxBlockListener;
 import com.nohupgaming.minecraft.listener.player.PhilosophersBoxPlayerListener;
 import com.nohupgaming.minecraft.util.PhilosopherConstants;
 
 public class PhilosophersBox extends JavaPlugin 
 {
     private PhilosophersBoxPlayerListener _pl;
-    private PhilosophersBoxBlockListener _bl;
     private Material _m;
     private HashMap<Material, Integer> _vals;
     private List<String> _ck;
@@ -31,7 +28,6 @@ public class PhilosophersBox extends JavaPlugin
     public PhilosophersBox()
     {
         _pl = new PhilosophersBoxPlayerListener(this);
-        _bl = new PhilosophersBoxBlockListener(this);
         _vals = new HashMap<Material, Integer>();        
         _ck = null;
         _permissions = null;
@@ -61,7 +57,7 @@ public class PhilosophersBox extends JavaPlugin
         
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Type.PLAYER_ITEM_HELD, _pl, Priority.Normal, this);
-        pm.registerEvent(Type.BLOCK_INTERACT, _bl, Priority.Normal, this);
+        pm.registerEvent(Type.PLAYER_INTERACT, _pl, Priority.Normal, this);
 
         if (pm.getPlugin(PhilosopherConstants.PERMISSIONS) != null)
         {
@@ -69,7 +65,6 @@ public class PhilosophersBox extends JavaPlugin
             _permissions = perm.getHandler(); 
         }
         
-        String n = c.getString(PhilosopherConstants.OPSONLY);
         _oponly = c.getBoolean(PhilosopherConstants.OPSONLY, false);
         
         System.out.println("PhilosophersBox " + PhilosopherConstants.PHILOSOPHER_VERSION + " has been enabled.");

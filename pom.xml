@@ -5,7 +5,7 @@
   <name>Minecraft - Philosopher's Box</name>
   <groupId>com.nohupgaming.minecraft</groupId>
   <artifactId>PhilosophersBox</artifactId>
-  <version>1.4</version>
+  <version>1.6</version>
   <packaging>jar</packaging>  
 
   <repositories>
@@ -19,7 +19,7 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>0.0.1-450</version>
+      <version>0.0.1-495</version>
       <scope>compile</scope>      
     </dependency>
     <dependency>

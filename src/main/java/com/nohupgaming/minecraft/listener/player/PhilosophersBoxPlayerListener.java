@@ -3,12 +3,17 @@ package com.nohupgaming.minecraft.listener.player;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerListener;
 
+import com.nohupgaming.minecraft.ContentConverter;
 import com.nohupgaming.minecraft.PhilosophersBox;
 import com.nohupgaming.minecraft.util.PhilosopherConstants;
 import com.nohupgaming.minecraft.util.PhilosophersUtil;
@@ -64,6 +69,46 @@ public class PhilosophersBoxPlayerListener extends PlayerListener
                 _plugin.setCurrentMaterial(convertTo);
                 setScreenText(s, PhilosophersUtil.getMaterialName(convertTo));
             }                
+        }
+    }
+    
+    @Override
+    public void onPlayerInteract(PlayerInteractEvent event) 
+    {
+        if (event.getClickedBlock().getType().equals(Material.STONE_BUTTON))
+        {
+            Chest c = PhilosophersUtil.findPhilosophersBox(event.getClickedBlock());
+            Player pl = event.getPlayer();
+            Material m = _plugin.getCurrentMaterial();
+            
+            if (m == null && c != null)
+            {
+                if (pl != null)
+                {
+                    pl.sendMessage(ChatColor.YELLOW + "Please select a conversion at the sign first.");
+                }
+                
+                return;
+            }
+            
+            if (m != null && c != null)
+            {
+                String path = PhilosopherConstants.PHILOSOPHERS_PREFIX + 
+                PhilosopherConstants.MATERIAL_PREFIX + m.toString().toLowerCase();
+            
+                if (PhilosophersUtil.hasPermission(_plugin, pl, path))
+                {
+                    Thread t = new Thread(new ContentConverter(_plugin, c));
+                    t.start();                
+                }
+                else
+                {
+                    if (pl != null)
+                    {
+                        pl.sendMessage(ChatColor.RED + "You do not have permission to execute this conversion.");
+                    }
+                }
+            }
         }
     }
     
